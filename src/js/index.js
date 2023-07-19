@@ -177,4 +177,6 @@ turnButtonAttack.addEventListener("click", () => {
 turnButtonRun.addEventListener("click", () => {
   turnOn();
   monsterInfo.innerHTML = "";
+  createDomMonsterHp.style.width = "100%";
+  percentageHp = 100;
 });
