@@ -39,34 +39,47 @@ turnButtonRecovery.classList.add("turn-recovery");
 turnButtonAdventure.innerHTML = "모험을 떠나다.";
 turnButtonRecovery.innerHTML = "휴식을 취하다.";
 
+let monsterInfo = document.querySelector(".monster-info");
+
 const character = {
   lv: 1,
   hp: 100,
   att: 10,
 };
-const monster01 = {
-  lv: 1,
-  hp: 30,
-  att: 5,
-  exp: 35,
-};
-const monster02 = {
-  lv: 5,
-  hp: 80,
-  att: 12,
-  exp: 85,
-};
-const monster03 = {
-  lv: 10,
-  hp: 140,
-  att: 24,
-  exp: 130,
-};
+const monsters = [
+  {
+    name: "화난 슬라임",
+    lv: 1,
+    hp: 30,
+    att: 5,
+    exp: 35,
+    src: "./images/monster01.png",
+    alt: "화난 슬라임",
+  },
+  {
+    name: "우는 슬라임",
+    lv: 5,
+    hp: 80,
+    att: 12,
+    exp: 85,
+    src: "./images/monster01.png",
+    alt: "우는 슬라임",
+  },
+  {
+    name: "왕 슬라임",
+    lv: 10,
+    hp: 140,
+    att: 24,
+    exp: 130,
+    src: "./images/monster01.png",
+    alt: "왕 슬라임",
+  },
+];
 
 // function
 const newCharacter = () => {
   character.name = setNameInput.value;
-  characterHp.style.width = "80%";
+  characterHp.style.width = "100%";
   characterNameText.innerHTML = `Lv ${character.lv}. ${character.name}`;
   characterHpBar.insertAdjacentElement("afterbegin", characterHp);
   characterInfo.insertAdjacentElement("afterbegin", cat);
@@ -79,7 +92,30 @@ const turnOn = () => {
   turnText.insertAdjacentElement("afterbegin", turnButtonAdventure);
 };
 
-const adventureStart = () => {};
+const adventureStart = () => {
+  let newMonsters = [...monsters];
+  let randomNum = Math.floor(Math.random() * 3);
+  let createRandomMonster = newMonsters[randomNum];
+  let createDomMonsterName = document.createElement("div");
+  let createDomMonsterHpBar = document.createElement("div");
+  let createDomMonsterHp = document.createElement("div");
+  let createDomMonsterImage = document.createElement("img");
+
+  createDomMonsterName.classList.add("monster-name");
+  createDomMonsterHpBar.classList.add("monster-hpBar", "hp-bar");
+  createDomMonsterHp.classList.add("monster-hp", "hp");
+  createDomMonsterImage.classList.add("monster-image");
+
+  createDomMonsterName.innerHTML = `Lv ${createRandomMonster.lv}. ${createRandomMonster.name}`;
+  createDomMonsterImage.setAttribute("src", createRandomMonster.src);
+  createDomMonsterImage.setAttribute("alt", createRandomMonster.alt);
+
+  createDomMonsterHpBar.insertAdjacentElement("afterbegin", createDomMonsterHp);
+  monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterImage);
+  monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterHpBar);
+  monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterName);
+};
+
 const recoveryStart = () => {
   characterHp.style.width = "100%";
 };
@@ -89,6 +125,10 @@ setNameButton.addEventListener("click", () => {
   startText.style.display = "none";
   newCharacter();
   turnOn();
+});
+
+turnButtonAdventure.addEventListener("click", () => {
+  adventureStart();
 });
 
 turnButtonRecovery.addEventListener("click", () => {

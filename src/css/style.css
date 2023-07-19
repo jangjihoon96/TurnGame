@@ -61,7 +61,7 @@ caption.a11y-hidden {
 .character-info {
   position: absolute;
   bottom: 10%;
-  left: 24%;
+  left: 25%;
 }
 .character-info h2 {
   color: #fff;
@@ -155,4 +155,19 @@ caption.a11y-hidden {
 }
 .turn-recovery:hover {
   background-color: rgba(29, 168, 85, 1);
+}
+
+.monster-info {
+  position: absolute;
+  bottom: 24%;
+  right: 25%;
+}
+.monster-info .monster-name {
+  color: rgb(255, 153, 153);
+  font-size: 32px;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+.monster-info .monster-image {
+  filter: drop-shadow(-10px 10px 5px rgba(0, 0, 0, 0.4));
 }
