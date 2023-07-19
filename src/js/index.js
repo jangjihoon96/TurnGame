@@ -32,14 +32,34 @@ characterHp.classList.add("hp");
 
 let turnButtonAdventure = document.createElement("button");
 let turnButtonRecovery = document.createElement("button");
+let turnButtonAttack = document.createElement("button");
+let turnButtonRun = document.createElement("button");
 turnButtonAdventure.setAttribute("type", "button");
 turnButtonRecovery.setAttribute("type", "button");
+turnButtonAttack.setAttribute("type", "button");
+turnButtonRun.setAttribute("type", "button");
 turnButtonAdventure.classList.add("turn-adventure");
 turnButtonRecovery.classList.add("turn-recovery");
+turnButtonAttack.classList.add("turn-attack");
+turnButtonRun.classList.add("turn-run");
 turnButtonAdventure.innerHTML = "모험을 떠나다.";
 turnButtonRecovery.innerHTML = "휴식을 취하다.";
+turnButtonAttack.innerHTML = "공격하다.";
+turnButtonRun.innerHTML = "도망가다.";
 
 let monsterInfo = document.querySelector(".monster-info");
+let percentageHp = 100;
+
+let createDomMonsterName = document.createElement("div");
+let createDomMonsterHpBar = document.createElement("div");
+let createDomMonsterHp = document.createElement("div");
+let createDomMonsterImage = document.createElement("img");
+
+createDomMonsterName.classList.add("monster-name");
+createDomMonsterHpBar.classList.add("monster-hpBar", "hp-bar");
+createDomMonsterHp.classList.add("monster-hp", "hp");
+createDomMonsterImage.classList.add("monster-image");
+createDomMonsterHp.style.width = `${percentageHp}%`;
 
 const character = {
   lv: 1,
@@ -75,6 +95,7 @@ const monsters = [
     alt: "왕 슬라임",
   },
 ];
+let onMonster;
 
 // function
 const newCharacter = () => {
@@ -88,23 +109,20 @@ const newCharacter = () => {
 };
 
 const turnOn = () => {
+  turnText.innerHTML = "";
   turnText.insertAdjacentElement("afterbegin", turnButtonRecovery);
   turnText.insertAdjacentElement("afterbegin", turnButtonAdventure);
+};
+const turnAdventure = () => {
+  turnText.innerHTML = "";
+  turnText.insertAdjacentElement("beforeend", turnButtonAttack);
+  turnText.insertAdjacentElement("beforeend", turnButtonRun);
 };
 
 const adventureStart = () => {
   let newMonsters = [...monsters];
   let randomNum = Math.floor(Math.random() * 3);
   let createRandomMonster = newMonsters[randomNum];
-  let createDomMonsterName = document.createElement("div");
-  let createDomMonsterHpBar = document.createElement("div");
-  let createDomMonsterHp = document.createElement("div");
-  let createDomMonsterImage = document.createElement("img");
-
-  createDomMonsterName.classList.add("monster-name");
-  createDomMonsterHpBar.classList.add("monster-hpBar", "hp-bar");
-  createDomMonsterHp.classList.add("monster-hp", "hp");
-  createDomMonsterImage.classList.add("monster-image");
 
   createDomMonsterName.innerHTML = `Lv ${createRandomMonster.lv}. ${createRandomMonster.name}`;
   createDomMonsterImage.setAttribute("src", createRandomMonster.src);
@@ -114,6 +132,22 @@ const adventureStart = () => {
   monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterImage);
   monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterHpBar);
   monsterInfo.insertAdjacentElement("afterbegin", createDomMonsterName);
+
+  onMonster = createRandomMonster;
+};
+
+const attackMonster = () => {
+  let damage =
+    100 - Math.floor(((onMonster.hp - character.att) / onMonster.hp) * 100);
+  percentageHp -= damage;
+  createDomMonsterHp.style.width = `${percentageHp}%`;
+  if (percentageHp <= 0) {
+    percentageHp = 100;
+    createDomMonsterHp.style.width = "0%";
+    monsterInfo.innerHTML = "";
+    createDomMonsterHp.style.width = "100%";
+    turnOn();
+  }
 };
 
 const recoveryStart = () => {
@@ -129,8 +163,18 @@ setNameButton.addEventListener("click", () => {
 
 turnButtonAdventure.addEventListener("click", () => {
   adventureStart();
+  turnAdventure();
 });
 
 turnButtonRecovery.addEventListener("click", () => {
   recoveryStart();
+});
+
+turnButtonAttack.addEventListener("click", () => {
+  attackMonster();
+});
+
+turnButtonRun.addEventListener("click", () => {
+  turnOn();
+  monsterInfo.innerHTML = "";
 });

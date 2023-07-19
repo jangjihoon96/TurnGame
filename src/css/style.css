@@ -150,11 +150,23 @@ caption.a11y-hidden {
 .turn-recovery {
   background-color: rgba(29, 168, 85, 0.6);
 }
+.turn-attack {
+  background-color: rgba(29, 43, 168, 0.6);
+}
+.turn-run {
+  background-color: rgba(34, 34, 34, 0.6);
+}
 .turn-adventure:hover {
   background-color: rgba(83, 78, 255, 1);
 }
 .turn-recovery:hover {
   background-color: rgba(29, 168, 85, 1);
+}
+.turn-attack:hover {
+  background-color: rgba(29, 43, 168, 1);
+}
+.turn-run:hover {
+  background-color: rgba(34, 34, 34, 1);
 }
 
 .monster-info {
