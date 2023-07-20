@@ -94,9 +94,9 @@ const monsters = [
   {
     name: "왕 슬라임",
     lv: 10,
-    hp: 140,
+    hp: 120,
     att: 24,
-    exp: 130,
+    exp: 160,
     src: "./images/monster01.png",
     alt: "왕 슬라임",
   },
@@ -147,8 +147,8 @@ const adventureStart = () => {
 
 const levelUp = () => {
   character.lv += 1;
-  character.hp += 10;
-  character.att += 1;
+  character.hp += 12;
+  character.att += 1.3;
   characterNameText.innerHTML = `Lv ${character.lv}. ${character.name}`;
   characterHp.style.width = `${character.hp}%`;
 };
@@ -156,10 +156,17 @@ const levelUp = () => {
 const attackMonster = () => {
   let damage =
     100 - Math.floor(((onMonster.hp - character.att) / onMonster.hp) * 100);
-  percentageHp -= damage;
+  let criticalDamage =
+    (100 - Math.floor(((onMonster.hp - character.att) / onMonster.hp) * 100)) *
+    1.5;
+  let criticalPercentage = Math.floor(Math.random() * 10) + 1;
+  if (criticalPercentage >= 8) {
+    percentageHp -= criticalDamage;
+    console.log("크리티컬 !!");
+  } else {
+    percentageHp -= damage;
+  }
   createDomMonsterHp.style.width = `${percentageHp}%`;
-  console.log(monsters, onMonster);
-
   if (character.hp <= 0) {
     character.hp = 0;
     characterHp.style.width = "0%";
@@ -183,7 +190,6 @@ const attackMonster = () => {
       levelUp();
     }
     characterExp.style.width = `${percentageExp}%`;
-    console.log(character.exp);
   }
   attackCharacter();
 };
