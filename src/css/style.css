@@ -70,7 +70,7 @@ caption.a11y-hidden {
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 .hp-bar {
-  margin: 20px auto;
+  margin: 20px auto 0 auto;
   width: 300px;
   height: 20px;
   border: 1px solid #aaa;
@@ -78,6 +78,17 @@ caption.a11y-hidden {
 .hp {
   height: 100%;
   background-color: red;
+  transition: all 0.5s;
+}
+.exp-bar {
+  margin: 10px auto 20px auto;
+  width: 300px;
+  height: 4px;
+  border: 1px solid #aaa;
+}
+.exp {
+  height: 100%;
+  background-color: rgb(255, 196, 0);
   transition: all 0.5s;
 }
 .cat {

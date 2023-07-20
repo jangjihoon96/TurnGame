@@ -27,8 +27,12 @@ startText.insertAdjacentElement("afterbegin", title);
 let characterNameText = document.createElement("h2");
 let characterHpBar = document.createElement("div");
 let characterHp = document.createElement("div");
+let characterExpBar = document.createElement("div");
+let characterExp = document.createElement("div");
 characterHpBar.classList.add("hp-bar");
 characterHp.classList.add("hp");
+characterExpBar.classList.add("exp-bar");
+characterExp.classList.add("exp");
 
 let turnButtonAdventure = document.createElement("button");
 let turnButtonRecovery = document.createElement("button");
@@ -49,6 +53,7 @@ turnButtonRun.innerHTML = "도망가다.";
 
 let monsterInfo = document.querySelector(".monster-info");
 let percentageHp = 100;
+let percentageExp = 0;
 
 let createDomMonsterName = document.createElement("div");
 let createDomMonsterHpBar = document.createElement("div");
@@ -65,6 +70,7 @@ const character = {
   lv: 1,
   hp: 100,
   att: 10,
+  exp: 0,
 };
 const monsters = [
   {
@@ -101,9 +107,12 @@ let onMonster;
 const newCharacter = () => {
   character.name = setNameInput.value;
   characterHp.style.width = "100%";
+  characterExp.style.width = "0%";
   characterNameText.innerHTML = `Lv ${character.lv}. ${character.name}`;
   characterHpBar.insertAdjacentElement("afterbegin", characterHp);
+  characterExpBar.insertAdjacentElement("afterbegin", characterExp);
   characterInfo.insertAdjacentElement("afterbegin", cat);
+  characterInfo.insertAdjacentElement("afterbegin", characterExpBar);
   characterInfo.insertAdjacentElement("afterbegin", characterHpBar);
   characterInfo.insertAdjacentElement("afterbegin", characterNameText);
 };
@@ -136,22 +145,65 @@ const adventureStart = () => {
   onMonster = createRandomMonster;
 };
 
+const levelUp = () => {
+  character.lv += 1;
+  character.hp += 10;
+  character.att += 1;
+  characterNameText.innerHTML = `Lv ${character.lv}. ${character.name}`;
+  characterHp.style.width = `${character.hp}%`;
+};
+
 const attackMonster = () => {
   let damage =
     100 - Math.floor(((onMonster.hp - character.att) / onMonster.hp) * 100);
   percentageHp -= damage;
   createDomMonsterHp.style.width = `${percentageHp}%`;
+  console.log(monsters, onMonster);
+
+  if (character.hp <= 0) {
+    character.hp = 0;
+    characterHp.style.width = "0%";
+    console.log("캐릭터가 죽었습니다.");
+  }
+
   if (percentageHp <= 0) {
     percentageHp = 100;
     createDomMonsterHp.style.width = "0%";
     monsterInfo.innerHTML = "";
     createDomMonsterHp.style.width = "100%";
     turnOn();
+
+    percentageExp += onMonster.exp;
+    while (percentageExp >= 100) {
+      monsters.forEach((monster) => {
+        monster.exp = Math.floor((monster.exp / 10) * 8);
+      });
+      percentageExp -= 100;
+      characterHp.style.width = "100%";
+      levelUp();
+    }
+    characterExp.style.width = `${percentageExp}%`;
+    console.log(character.exp);
+  }
+  attackCharacter();
+};
+
+const attackCharacter = () => {
+  let damage =
+    100 - Math.floor(((character.hp - onMonster.att) / character.hp) * 100);
+  character.hp -= onMonster.att;
+  characterHp.style.width = `${character.hp}%`;
+
+  if (character.hp <= 0) {
+    character.hp = 0;
+    characterHp.style.width = "0%";
+    console.log("캐릭터가 죽었습니다.");
   }
 };
 
 const recoveryStart = () => {
   characterHp.style.width = "100%";
+  character.hp = 100;
 };
 
 // Event Listener
