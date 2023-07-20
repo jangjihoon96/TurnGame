@@ -84,7 +84,7 @@ caption.a11y-hidden {
 .exp-bar {
   margin: 10px auto 20px auto;
   width: 300px;
-  height: 4px;
+  height: 8px;
   border: 1px solid #aaa;
   background-color: rgba(0, 0, 0, 0.4);
 }

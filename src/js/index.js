@@ -70,6 +70,7 @@ const character = {
   lv: 1,
   hp: 100,
   att: 10,
+  def: 0,
   exp: 0,
 };
 const monsters = [
@@ -84,7 +85,7 @@ const monsters = [
   },
   {
     name: "새끼 구미호",
-    lv: 5,
+    lv: 8,
     hp: 94,
     att: 14,
     exp: 85,
@@ -93,7 +94,7 @@ const monsters = [
   },
   {
     name: "단단한 골렘",
-    lv: 10,
+    lv: 13,
     hp: 120,
     att: 24,
     exp: 330,
@@ -147,7 +148,7 @@ const adventureStart = () => {
 
 const levelUp = () => {
   character.lv += 1;
-  character.hp += 12;
+  character.def += 0.8;
   character.att += 1.3;
   characterNameText.innerHTML = `Lv ${character.lv}. ${character.name}`;
   characterHp.style.width = `${character.hp}%`;
@@ -195,11 +196,19 @@ const attackMonster = () => {
 };
 
 const attackCharacter = () => {
-  let damage =
-    100 - Math.floor(((character.hp - onMonster.att) / character.hp) * 100);
-  character.hp -= onMonster.att;
+  // let damage =
+  //   100 - Math.floor(((character.hp - onMonster.att) / character.hp) * 100);
+  let damage = Math.floor(onMonster.att - character.def);
+  if (character.def >= onMonster.att) {
+    --character.hp;
+  } else {
+    character.hp -= damage;
+  }
+  character.hp -= damage;
+  if (character.hp > 100) {
+    character.hp = 100;
+  }
   characterHp.style.width = `${character.hp}%`;
-
   if (character.hp <= 0) {
     character.hp = 0;
     characterHp.style.width = "0%";
