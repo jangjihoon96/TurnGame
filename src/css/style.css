@@ -74,6 +74,7 @@ caption.a11y-hidden {
   width: 300px;
   height: 20px;
   border: 1px solid #aaa;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .hp {
   height: 100%;
@@ -85,6 +86,7 @@ caption.a11y-hidden {
   width: 300px;
   height: 4px;
   border: 1px solid #aaa;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .exp {
   height: 100%;
