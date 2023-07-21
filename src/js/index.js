@@ -20,10 +20,6 @@ cat.setAttribute("src", "./images/cat.png");
 
 const turnText = document.querySelector(".turn-text");
 
-startText.insertAdjacentElement("afterbegin", setNameButton);
-startText.insertAdjacentElement("afterbegin", setNameInput);
-startText.insertAdjacentElement("afterbegin", title);
-
 let characterNameText = document.createElement("h2");
 let characterHpBar = document.createElement("div");
 let characterHp = document.createElement("div");
@@ -95,8 +91,8 @@ const monsters = [
   {
     name: "단단한 골렘",
     lv: 13,
-    hp: 120,
-    att: 24,
+    hp: 114,
+    att: 19,
     exp: 330,
     src: "./images/monster03.png",
     alt: "단단한 골렘",
@@ -105,6 +101,14 @@ const monsters = [
 let onMonster;
 
 // function
+const init = () => {
+  startText.insertAdjacentElement("afterbegin", setNameButton);
+  startText.insertAdjacentElement("afterbegin", setNameInput);
+  startText.insertAdjacentElement("afterbegin", title);
+};
+
+init();
+
 const newCharacter = () => {
   character.name = setNameInput.value;
   characterHp.style.width = "100%";
@@ -154,6 +158,24 @@ const levelUp = () => {
   characterHp.style.width = `${character.hp}%`;
 };
 
+const deathCat = () => {
+  init();
+  character.lv = 1;
+  character.hp = 100;
+  character.att = 10;
+  character.def = 0;
+  character.exp = 0;
+  character.name = "";
+  percentageHp = 100;
+  percentageExp = 0;
+  turnText.innerHTML = "";
+  characterInfo.innerHTML = "";
+  monsterInfo.innerHTML = "";
+  characterHp.style.width = `${character.hp}%`;
+  createDomMonsterHp.style.width = `${percentageHp}%`;
+  startText.style.display = "flex";
+};
+
 const attackMonster = () => {
   let damage =
     100 - Math.floor(((onMonster.hp - character.att) / onMonster.hp) * 100);
@@ -168,11 +190,6 @@ const attackMonster = () => {
     percentageHp -= damage;
   }
   createDomMonsterHp.style.width = `${percentageHp}%`;
-  if (character.hp <= 0) {
-    character.hp = 0;
-    characterHp.style.width = "0%";
-    console.log("캐릭터가 죽었습니다.");
-  }
 
   if (percentageHp <= 0) {
     percentageHp = 100;
@@ -212,7 +229,8 @@ const attackCharacter = () => {
   if (character.hp <= 0) {
     character.hp = 0;
     characterHp.style.width = "0%";
-    console.log("캐릭터가 죽었습니다.");
+    alert("캐릭터가 죽었습니다.");
+    deathCat();
   }
 };
 
