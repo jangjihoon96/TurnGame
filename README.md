@@ -17,7 +17,7 @@ https://jangjihoon96.github.io/TurnGame/
 
 <br/>
 
-## 📖 Ecmascript 6
+## 📖 ECMAscript 6
 
 ### 
 
